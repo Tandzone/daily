@@ -1,4 +1,4 @@
-API_URL="http://localhost:8000/api/notes"
+API_URL="http://localhost:3001/api/notes"
 
 # Create a note
 curl -X POST "$API_URL" \
@@ -24,4 +24,3 @@ curl -X POST "$API_URL" \
     "title": "Sample Note 3",
     "content": "This is yet another sample note created for testing purposes."
   }'
-  

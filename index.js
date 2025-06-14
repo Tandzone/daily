@@ -4,7 +4,7 @@ const port = 3001;
 
 app.use(express.json());
 
-const notesRouter = require('./routes/notes');
+const notesRouter = require('./routes/notesRoutes');
 app.use('/api/notes', notesRouter);
 
 app.get('/', (req, res) => {
