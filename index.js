@@ -1,15 +1,14 @@
-const express = require('express');
-const app = express();
+const app = require('./app');
 const port = 3001;
-
-app.use(express.json());
-
-const notesRouter = require('./routes/notesRoutes');
-app.use('/api/notes', notesRouter);
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+const mongoose = require('mongoose');
+const dbURI = 'mongodb://localhost:27017/notesdb';
+mongoose.connect(dbURI)
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+  });
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
