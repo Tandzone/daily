@@ -1,15 +1,25 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import JournalItem from './components/JournalItem'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <h1 className="text-4xl font-bold text-blue-600">Hello Tailwind</h1>
-    </div>
+    <main className="max-w-xl mx-auto p-4 bg-green-200">
+      <h1 className="text-3xl font-bold mb-6">Mon Journal</h1>
+
+      <JournalItem
+        title="Une première note"
+        content="Ceci est le contenu de ma première note."
+        date="15 juin 2025"
+      />
+
+      <JournalItem
+        title="Une autre note"
+        content="Ceci est une seconde note pour tester la réutilisabilité du composant."
+        date="14 juin 2025"
+      />
+    </main>
   )
 }
 
