@@ -30,7 +30,7 @@ exports.addNote = async (req, res) => {
 }
 
 /** à vérifier */
-exports.updateNote = (req, res) => {
+exports.updateNote = async (req, res) => {
   const { id } = req.params;
   const { title, content } = req.body;
 
@@ -38,39 +38,41 @@ exports.updateNote = (req, res) => {
     return res.status(400).json({ error: 'Note ID is required' });
   }
 
-  const note = Note.find(note => note.id === id);
-  if (!note) {
-    return res.status(404).json({ error: 'Note not found' });
-  }
+  const note = await Note.findById(id);
 
   if (!title || !content) {
     return res.status(400).json({ error: 'Title and content are required' });
   }
 
-  note.title = title;
-  note.content = content;
-  note.updatedAt = new Date();
-  Note.save(note);
-  res.json(note);
-}
-
-exports.deleteNote = (req, res) => {
-  const { id } = req.params;
-
-  const noteIndex = notes.findIndex(note => note.id === id);
-  if (noteIndex === -1) {
-    return res.status(404).json({ error: 'Note not found' });
-  }
-
-  notes.splice(noteIndex, 1);
-  res.status(204).send();
-}
-
-exports.getNoteById = (req, res) => {
-  const { id } = req.params;
-  const note = notes.find(note => note.id === id);
   if (!note) {
     return res.status(404).json({ error: 'Note not found' });
   }
-  res.json(note);
+  
+  const updatedNote = await Note.findByIdAndUpdate(id, { title, content, updatedAt: new Date() }, { new: true })
+    .then(updatedNote => {
+      if (!updatedNote) {
+        return res.status(404).json({ error: 'Note not found' });
+      }
+      res.json(updatedNote);
+    })
+    .catch(error => {
+      console.error('Error updating note:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    });
+  
+  res.json(updatedNote);
+}
+
+exports.deleteNote = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ error: 'Note ID is required' });
+  }
+
+  const note = await Note.findByIdAndDelete(id);
+  if (!note) {
+    return res.status(404).json({ error: 'Note not found' });
+  }
+  res.status(204).send();
 }
