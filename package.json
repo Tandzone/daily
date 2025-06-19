@@ -1,0 +1,14 @@
+{
+  "name": "journal",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Tanjona <tanjonatsiry@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"cd backend && yarn dev\" \"cd frontend && yarn dev\""
+  },
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
