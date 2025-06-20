@@ -1,26 +1,52 @@
-import { useState } from 'react'
-import './App.css'
-import JournalItem from './components/JournalItem'
+import { useState, useEffect } from 'react';
+import JournalEntryForm from './components/journalEntryForm';
+import JournalList from './components/journalList';
+import { getNotes, createNote, updateNote, deleteNote } from './api/notes';
 
 function App() {
+  const [notes, setNotes] = useState([]);
+  const [editingNote, setEditingNote] = useState(null);
+
+  useEffect(() => {
+    async function fetchNotes() {
+      const data = await getNotes();
+      console.log(data);
+      setNotes(data);
+    }
+    fetchNotes();
+  }, []);
+
+  const handleSaveNote = async (note) => {
+    if (note.id) {
+      const updatedNote = await updateNote(note.id, note);
+      setNotes((prev) => prev.map(n => n._id === updatedNote.id ? updatedNote : n));
+    } else {
+      const newNote = await createNote(note);
+      setNotes((prev) => [...prev, newNote]);
+    }
+
+    setEditingNote(null);
+  }
+
+  const handleDeleteNote = async (id) => {
+    await deleteNote(id);
+    setNotes((prev) => prev.filter(note => note._id !== id));
+  }
 
   return (
-    <main className="max-w-xl mx-auto p-4 bg-green-200">
-      <h1 className="text-3xl font-bold mb-6">Mon Journal</h1>
-
-      <JournalItem
-        title="Une première note"
-        content="Ceci est le contenu de ma première note."
-        date="15 juin 2025"
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Journal de Bord</h1>
+      <JournalEntryForm
+        onSubmit={handleSaveNote}
+        currentNote={editingNote}
       />
-
-      <JournalItem
-        title="Une autre note"
-        content="Ceci est une seconde note pour tester la réutilisabilité du composant."
-        date="14 juin 2025"
+      <JournalList
+        notes={notes}
+        onEdit={setEditingNote}
+        onDelete={handleDeleteNote}
       />
-    </main>
-  )
+    </div>
+  );
 }
 
 export default App

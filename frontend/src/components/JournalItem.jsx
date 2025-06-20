@@ -1,9 +1,20 @@
-export default function JournalItem({ title, content, date }) {
+export default function JournalItem({ note, onEdit, onDelete }) {
   return (
-    <div className="bg-white p-4 rounded-2xl shadow-md mb-4">
-      <h2 className="text-xl font-bold text-gray-800">{title}</h2>
-      <p className="text-sm text-gray-500 mb-2">{date}</p>
-      <p className="text-gray-700">{content}</p>
+    <div className="bg-white rounded-xl shadow p-4 mb-4">
+      <h2 className="text-xl font-semibold">{ note.title }</h2>
+      <p className="text-gray-700">{note.content}</p>
+      <div className="flex justify-end gap-2 mt-4">
+        <button className="text-blue-500 hover:underline"
+          onClick={() => onEdit(note)}
+        >
+          Modifier
+        </button>
+        <button className="text-red-500 hover:underline"
+          onClick={() => onDelete(note._id)}
+        >
+          Supprimer
+        </button>
+      </div>
     </div>
   );
 }
