@@ -25,6 +25,13 @@ export default function JournalEntryForm({ onSubmit, currentNote }) {
         setContent("");
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            handleSubmit(e);
+        }
+    };
+
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <input type="text" className="w-full p-2 border rounded" placeholder="Titre"
@@ -35,6 +42,7 @@ export default function JournalEntryForm({ onSubmit, currentNote }) {
             <textarea className="w-full p-2 border rounded" placeholder="Écrivez votre note ici..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
+                onKeyDown={handleKeyDown}
                 required
             />
             <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
