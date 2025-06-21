@@ -3,11 +3,13 @@ import { useState, useEffect } from "react";
 export default function JournalEntryForm({ onSubmit, currentNote }) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const [id, setId] = useState("");
 
     useEffect(() => {
         if (currentNote) {
             setTitle(currentNote.title);
             setContent(currentNote.content);
+            setId(currentNote._id);
         } else {
             setTitle("");
             setContent("");
@@ -20,7 +22,7 @@ export default function JournalEntryForm({ onSubmit, currentNote }) {
             alert("Veuillez remplir tous les champs.");
             return;
         }
-        onSubmit({ title, content, id: currentNote?.id });
+        onSubmit({ title, content, id: currentNote?._id });
         setTitle("");
         setContent("");
     };
@@ -37,6 +39,7 @@ export default function JournalEntryForm({ onSubmit, currentNote }) {
             <input type="text" className="w-full p-2 border rounded" placeholder="Titre"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                onKeyDown={handleKeyDown}
                 required
             />
             <textarea className="w-full p-2 border rounded" placeholder="Écrivez votre note ici..."

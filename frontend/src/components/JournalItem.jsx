@@ -5,7 +5,9 @@ export default function JournalItem({ note, onEdit, onDelete }) {
       <p className="text-gray-700">{note.content}</p>
       <div className="flex justify-end gap-2 mt-4">
         <button className="text-blue-500 hover:underline"
-          onClick={() => onEdit(note)}
+          onClick={() => {
+            onEdit(note);
+          }}
         >
           Modifier
         </button>

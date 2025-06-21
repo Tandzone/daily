@@ -8,12 +8,10 @@ function App() {
   const [notes, setNotes] = useState([]);
   const [editingNote, setEditingNote] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [noteToEdit, setNoteToEdit] = useState(null);
 
   useEffect(() => {
     async function fetchNotes() {
       const data = await getNotes();
-      console.log(data);
       setNotes(data);
     }
     fetchNotes();
@@ -22,13 +20,13 @@ function App() {
   const handleSaveNote = async (note) => {
     if (note.id) {
       const updatedNote = await updateNote(note.id, note);
-      setNotes((prev) => prev.map(n => n._id === updatedNote.id ? updatedNote : n));
+      setNotes((prev) => prev.map(n => n._id === note.id ? updatedNote : n));
     } else {
       const newNote = await createNote(note);
       setNotes((prev) => [...prev, newNote]);
     }
 
-    setEditingNote(null);
+    handleCloseModal();
   }
 
   const handleDeleteNote = async (id) => {

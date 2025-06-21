@@ -7,7 +7,6 @@ export default function JournalList({ notes, onEdit, onDelete }) {
           <p className="text-gray-500">Aucune note trouvée.</p>
         ) : (
           notes.map(note => {
-            console.log(note);
             return (
               <JournalItem
                 key={note._id}
