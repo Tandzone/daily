@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 
-export default function JournalEntryForm({ onSubmit, currentNote }) {
+export default function JournalEntryForm({ onSubmit, currentNote, selectedDate }) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [id, setId] = useState("");
+    const [noteDate, setNoteDate] = useState(selectedDate || new Date());
 
     useEffect(() => {
         if (currentNote) {
@@ -16,13 +17,20 @@ export default function JournalEntryForm({ onSubmit, currentNote }) {
         }
     }, [currentNote]);
 
+    useEffect(() => {
+        if (!currentNote && selectedDate) {
+            setNoteDate(selectedDate);
+        }
+    }
+    , [selectedDate]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!title || !content) {
             alert("Veuillez remplir tous les champs.");
             return;
         }
-        onSubmit({ title, content, id: currentNote?._id });
+        onSubmit({ title, content, date: noteDate, id: currentNote?._id });
         setTitle("");
         setContent("");
     };

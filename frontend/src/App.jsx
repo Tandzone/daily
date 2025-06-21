@@ -3,11 +3,13 @@ import JournalEntryForm from './components/journalEntryForm';
 import JournalList from './components/journalList';
 import { getNotes, createNote, updateNote, deleteNote } from './api/notes';
 import Modal from './components/modal';
+import CalendarView from './components/calendarView';
 
 function App() {
   const [notes, setNotes] = useState([]);
   const [editingNote, setEditingNote] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   useEffect(() => {
     async function fetchNotes() {
@@ -34,8 +36,8 @@ function App() {
     setNotes((prev) => prev.filter(note => note._id !== id));
   }
 
-  const handleAddNoteClick = () => {
-    setEditingNote({ title: '', content: '' });
+  const handleAddNoteClick = (date) => {
+    setEditingNote({ title: '', content: '', date: date });
     setIsModalOpen(true);
   }
 
@@ -60,8 +62,10 @@ function App() {
         <JournalEntryForm
           onSubmit={handleSaveNote}
           currentNote={editingNote}
+          selectedDate={selectedDate}
         />
       </Modal>
+      <CalendarView onDateSelect={handleAddNoteClick} selectedDate={new Date()} />
       <h2 className="text-xl font-semibold mb-2">Mes Notes</h2>
       <JournalList
         notes={notes}

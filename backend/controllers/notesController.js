@@ -8,7 +8,7 @@ exports.getNotes = async (req, res) => {
 };
 
 exports.addNote = async (req, res) => {
-  const { title, content } = req.body;
+  const { title, content, date } = req.body;
   if (!title || !content) {
     return res.status(400).json({ error: 'Title and content are required' });
   }
@@ -17,7 +17,7 @@ exports.addNote = async (req, res) => {
     const newNote = new Note({
       title,
       content,
-      createdAt: new Date()
+      noteDate: new Date(date),
     });
     
     await newNote.save();
