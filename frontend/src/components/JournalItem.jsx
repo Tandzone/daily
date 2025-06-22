@@ -1,6 +1,6 @@
 export default function JournalItem({ note, onEdit, onDelete }) {
   return (
-    <div className="bg-white rounded-xl shadow p-4 mb-4">
+    <div className="bg-gray-400 rounded-xl shadow p-4 mb-4">
       <h2 className="text-xl font-semibold">{ note.title }</h2>
       <p className="text-gray-700">{note.content}</p>
       <div className="flex justify-end gap-2 mt-4">

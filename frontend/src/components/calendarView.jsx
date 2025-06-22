@@ -50,7 +50,7 @@ export default function CalendarView({ onDateSelect, selectedDate }) {
     };
 
     return (
-        <div className="p-4 bg-white rounded-lg shadow-md">
+        <div className="p-4 bg-gray-400 rounded-lg shadow-md">
             {renderHeader()}
             {renderDaysOfWeek()}
             {renderCells()}
