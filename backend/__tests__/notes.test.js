@@ -25,7 +25,7 @@ describe('Notes API', () => {
   it('should create a new note', async () => {
     const response = await request(app)
       .post('/api/notes')
-      .send({ title: 'Test Note', content: 'This is a test note.' });
+      .send({ title: 'Test Note', content: 'This is a test note.', noteDate: new Date() });
 
     expect(response.statusCode).toBe(201);
     expect(response.body).toHaveProperty('_id');
@@ -34,8 +34,8 @@ describe('Notes API', () => {
   });
 
   it('should get all notes', async () => {
-    await Note.create({ title: 'Note 1', content: 'Content 1' });
-    await Note.create({ title: 'Note 2', content: 'Content 2' });
+    await Note.create({ title: 'Note 1', content: 'Content 1', noteDate: new Date() });
+    await Note.create({ title: 'Note 2', content: 'Content 2', noteDate: new Date() });
 
     const response = await request(app).get('/api/notes');
 
@@ -45,19 +45,22 @@ describe('Notes API', () => {
   });
 
   it('should update a note', async () => {
-    const note = await Note.create({ title: 'Old Title', content: 'Old Content' });
+    const note = await Note.create({ title: 'Old Title', content: 'Old Content', noteDate: new Date() });
+    const currentDate = new Date();
 
+    console.log('current note', `/api/notes/${note._id.toString()}`);
     const response = await request(app)
-      .put(`/api/notes/${note._id}`)
-      .send({ title: 'Updated Title', content: 'Updated Content' });
-
+      .put(`/api/notes/${note._id.toString()}`)
+      .send({ title: 'Updated Title', content: 'Updated Content', noteDate: currentDate });
+      
     expect(response.statusCode).toBe(200);
     expect(response.body.title).toBe('Updated Title');
     expect(response.body.content).toBe('Updated Content');
+    expect(response.body.noteDate).toBe(currentDate.toISOString());
   });
 
   it('should delete a note', async () => {
-    const note = await Note.create({ title: 'Delete Me', content: 'Delete Content' });
+    const note = await Note.create({ title: 'Delete Me', content: 'Delete Content', noteDate: new Date() });
 
     const response = await request(app).delete(`/api/notes/${note._id}`);
 
@@ -72,7 +75,9 @@ describe('Error Handling', () => {
   it('should return 404 for non-existing note on update', async () => {
     const response = await request(app)
       .put('/api/notes/60c72b2f9b1d8c001c8e4f1a')
-      .send({ title: 'Non-existing Note', content: 'Content' });
+      .send({ title: 'Non-existing Note', content: 'Content', noteDate: new Date() });
+
+      console.log(response.statusCode);
 
     expect(response.statusCode).toBe(404);
     expect(response.body.error).toBe('Note not found');
@@ -88,21 +93,21 @@ describe('Error Handling', () => {
 );
 describe('Validation', () => {
   it('should return 400 for missing title or content on note creation', async () => {
-    const response = await request(app).post('/api/notes').send({ title: '', content: '' });
+    const response = await request(app).post('/api/notes').send({ title: '', content: '', noteDate: new Date() });
 
     expect(response.statusCode).toBe(400);
-    expect(response.body.error).toBe('Title and content are required');
+    expect(response.body.error).toBe('Title, content, and date are required');
   });
 
   it('should return 400 for missing title or content on note update', async () => {
-    const note = await Note.create({ title: 'Test Note', content: 'Test Content' });
+    const note = await Note.create({ title: 'Test Note', content: 'Test Content', noteDate: new Date() });
 
     const response = await request(app)
       .put(`/api/notes/${note._id}`)
-      .send({ title: '', content: '' });
+      .send({ title: '', content: '', noteDate: new Date() });
 
     expect(response.statusCode).toBe(400);
-    expect(response.body.error).toBe('Title and content are required');
+    expect(response.body.error).toBe('Title, content, and date are required');
   });
 }
 );

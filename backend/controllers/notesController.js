@@ -8,16 +8,18 @@ exports.getNotes = async (req, res) => {
 };
 
 exports.addNote = async (req, res) => {
-  const { title, content, date } = req.body;
-  if (!title || !content) {
-    return res.status(400).json({ error: 'Title and content are required' });
+  const { title, content, noteDate } = req.body;
+  if (!title || !content || !noteDate) {
+    return res.status(400).json({ error: 'Title, content, and date are required' });
   }
+
+  console.log('Adding note:', { title, content, noteDate });
 
   try {
     const newNote = new Note({
       title,
       content,
-      noteDate: new Date(date),
+      noteDate: new Date(noteDate),
     });
     
     await newNote.save();
@@ -32,7 +34,7 @@ exports.addNote = async (req, res) => {
 /** à vérifier */
 exports.updateNote = async (req, res) => {
   const { id } = req.params;
-  const { title, content } = req.body;
+  const { title, content, noteDate } = req.body;
 
   if (!id) {
     return res.status(400).json({ error: 'Note ID is required' });
@@ -40,15 +42,15 @@ exports.updateNote = async (req, res) => {
 
   const note = await Note.findById(id);
 
-  if (!title || !content) {
-    return res.status(400).json({ error: 'Title and content are required' });
+  if (!title || !content || !noteDate) {
+    return res.status(400).json({ error: 'Title, content, and date are required' });
   }
 
   if (!note) {
     return res.status(404).json({ error: 'Note not found' });
   }
-  
-  const updatedNote = await Note.findByIdAndUpdate(id, { title, content, updatedAt: new Date() }, { new: true })
+
+  const updatedNote = await Note.findByIdAndUpdate(id, { title, content, noteDate, updatedAt: new Date() }, { new: true })
     .then(updatedNote => {
       if (!updatedNote) {
         return res.status(404).json({ error: 'Note not found' });
