@@ -13,7 +13,7 @@ exports.addNote = async (req, res) => {
     return res.status(400).json({ error: 'Title, content, and date are required' });
   }
 
-  console.log('Adding note:', { title, content, noteDate });
+  // console.log('Adding note:', { title, content, noteDate });
 
   try {
     const newNote = new Note({

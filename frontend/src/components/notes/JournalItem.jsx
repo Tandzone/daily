@@ -1,5 +1,5 @@
 export default function JournalItem({ note, onEdit, onDelete }) {
-  console.log("Rendering JournalItem:", note);
+  // console.log("Rendering JournalItem:", note);
   return (
     <div className="bg-gray-400 rounded-xl shadow p-4 mb-4">
       <h2 className="text-xl font-semibold">{ note.title }</h2>

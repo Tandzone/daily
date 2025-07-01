@@ -37,13 +37,13 @@ export default function CalendarPage() {
     }
 
     const handleAddNoteClick = (date) => {
-        console.log("Adding note for date:", date);
+        // console.log("Adding note for date:", date);
         setEditingNote({ title: '', content: '', date: date });
         setIsModalOpen(true);
     }
 
     const handleEditNoteClick = (note) => {
-        console.log("Editing note:", note);
+        // console.log("Editing note:", note);
         setEditingNote(note);
         setIsModalOpen(true);
     }

@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, addMonths, subMonths, isSameMonth, isSameDay } from "date-fns";
+import CalendarCell from "./calendarCell";
 
-export default function CalendarView({ onDateSelect, selectedDate }) {
+export default function CalendarView({ notes, onDateSelect, selectedDate }) {
     const [currentMonth, setCurrentMonth] = useState(new Date());
+    console.log(notes);
+    const notesForDay = (day) => {
+        //console.log("Filtering notes for day:", day, note);
+        return notes.filter(note => isSameDay(new Date(note.noteDate), day));
+    };
+
 
     const renderHeader = () => (
         <div className="flex justify-between items-center mb-4">
@@ -35,7 +42,7 @@ export default function CalendarView({ onDateSelect, selectedDate }) {
         const days = [];
 
         for (let day = start; day <= end; day = addDays(day, 1)) {
-            days.push(
+            /* days.push(
                 <div
                     key={day}
                     className={`p-2 text-center cursor-pointer ${isSameDay(day, selectedDate) ? "bg-blue-500 text-white" : "text-gray-700 hover:bg-gray-200"}`}
@@ -43,11 +50,23 @@ export default function CalendarView({ onDateSelect, selectedDate }) {
                 >
                     {format(day, "d")}
                 </div>
+            ); */
+            days.push(
+                <CalendarCell
+                    key={day}
+                    day={day}
+                    selectedDate={selectedDate}
+                    onDateSelect={onDateSelect}
+                    notesForDay={notesForDay(day)}
+                />
             );
         }
 
         return <div className="grid grid-cols-7 gap-1">{days}</div>;
     };
+
+    const start = startOfWeek(startOfMonth(currentMonth));
+    const end = endOfWeek(endOfMonth(currentMonth));
 
     return (
         <div className="p-4 bg-gray-400 rounded-lg shadow-md">

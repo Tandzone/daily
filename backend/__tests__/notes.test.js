@@ -48,7 +48,7 @@ describe('Notes API', () => {
     const note = await Note.create({ title: 'Old Title', content: 'Old Content', noteDate: new Date() });
     const currentDate = new Date();
 
-    console.log('current note', `/api/notes/${note._id.toString()}`);
+    // console.log('current note', `/api/notes/${note._id.toString()}`);
     const response = await request(app)
       .put(`/api/notes/${note._id.toString()}`)
       .send({ title: 'Updated Title', content: 'Updated Content', noteDate: currentDate });
@@ -77,7 +77,7 @@ describe('Error Handling', () => {
       .put('/api/notes/60c72b2f9b1d8c001c8e4f1a')
       .send({ title: 'Non-existing Note', content: 'Content', noteDate: new Date() });
 
-      console.log(response.statusCode);
+      // console.log(response.statusCode);
 
     expect(response.statusCode).toBe(404);
     expect(response.body.error).toBe('Note not found');
