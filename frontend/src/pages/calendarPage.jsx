@@ -55,7 +55,7 @@ export default function CalendarPage() {
     }
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-8xl text-white tracking-tighter text-balance my-24">Journal de Bord</h1>
+            <h1 className="text-8xl text-white tracking-tighter text-balance my-24">Daily Notes</h1>
             {/* <button
                 onClick={() => handleAddNoteClick(new Date())}
                 className="mb-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
