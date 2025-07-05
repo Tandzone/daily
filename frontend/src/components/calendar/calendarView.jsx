@@ -13,11 +13,11 @@ export default function CalendarView({ notes, onDateSelect, selectedDate, onEdit
     const renderHeader = () => (
         <div className="flex justify-between items-center mb-4">
             <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="text-white hover:text-gray-700">
-                &lt; Précédent
+                &lt; Previous
             </button>
             <h2 className="text-lg font-semibold">{format(currentMonth, "MMMM yyyy")}</h2>
             <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className="text-white hover:text-gray-700">
-                Suivant &gt;
+                Next &gt;
             </button>
         </div>
     );
