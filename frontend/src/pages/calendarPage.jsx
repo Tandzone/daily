@@ -13,8 +13,8 @@ export default function CalendarPage() {
 
     useEffect(() => {
         async function fetchNotes() {
-        const data = await getNotes();
-        setNotes(data);
+            const data = await getNotes();
+            setNotes(data);
         }
         fetchNotes();
     }, []);
@@ -38,13 +38,14 @@ export default function CalendarPage() {
 
     const handleAddNoteClick = (date) => {
         // console.log("Adding note for date:", date);
-        setEditingNote({ title: '', content: '', date: date });
+        setEditingNote({ title: '', content: '', noteDate: date });
         setIsModalOpen(true);
     }
 
     const handleEditNoteClick = (note) => {
         // console.log("Editing note:", note);
         setEditingNote(note);
+        setSelectedDate(new Date(note.noteDate));
         setIsModalOpen(true);
     }
 
@@ -55,25 +56,27 @@ export default function CalendarPage() {
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-8xl text-white tracking-tighter text-balance my-24">Journal de Bord</h1>
-            <button
+            {/* <button
                 onClick={() => handleAddNoteClick(new Date())}
                 className="mb-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
                 Ajouter une note
-            </button>
+            </button> */}
             <CalendarView
                 notes={notes}
                 onDateSelect={(date) => {
                     setSelectedDate(date);
                     handleAddNoteClick(date);
                 }}
+                onEditNote={handleEditNoteClick}
                 selectedDate={new Date()}
+                onDeleteNote={handleDeleteNote}
             />
-            <JournalList
+            {/* <JournalList
                 notes={notes}
                 onEdit={handleEditNoteClick}
                 onDelete={handleDeleteNote}
-            />
+            /> */}
             <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
                 <JournalEntryForm
                     onSubmit={handleSaveNote}

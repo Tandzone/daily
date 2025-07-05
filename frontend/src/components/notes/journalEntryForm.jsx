@@ -30,7 +30,7 @@ export default function JournalEntryForm({ onSubmit, currentNote, selectedDate }
             alert("Veuillez remplir tous les champs.");
             return;
         }
-        onSubmit({ title, content, date: noteDate, id: currentNote?._id });
+        onSubmit({ title, content, noteDate, id: currentNote?._id });
         setTitle("");
         setContent("");
     };

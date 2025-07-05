@@ -2,9 +2,8 @@ import { useState } from "react";
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, addMonths, subMonths, isSameMonth, isSameDay } from "date-fns";
 import CalendarCell from "./calendarCell";
 
-export default function CalendarView({ notes, onDateSelect, selectedDate }) {
+export default function CalendarView({ notes, onDateSelect, selectedDate, onEditNote, onDeleteNote }) {
     const [currentMonth, setCurrentMonth] = useState(new Date());
-    console.log(notes);
     const notesForDay = (day) => {
         //console.log("Filtering notes for day:", day, note);
         return notes.filter(note => isSameDay(new Date(note.noteDate), day));
@@ -13,11 +12,11 @@ export default function CalendarView({ notes, onDateSelect, selectedDate }) {
 
     const renderHeader = () => (
         <div className="flex justify-between items-center mb-4">
-            <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="text-gray-500 hover:text-gray-700">
+            <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="text-white hover:text-gray-700">
                 &lt; Précédent
             </button>
             <h2 className="text-lg font-semibold">{format(currentMonth, "MMMM yyyy")}</h2>
-            <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className="text-gray-500 hover:text-gray-700">
+            <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className="text-white hover:text-gray-700">
                 Suivant &gt;
             </button>
         </div>
@@ -58,6 +57,8 @@ export default function CalendarView({ notes, onDateSelect, selectedDate }) {
                     selectedDate={selectedDate}
                     onDateSelect={onDateSelect}
                     notesForDay={notesForDay(day)}
+                    onEditNote={onEditNote}
+                    onDeleteNote={onDeleteNote}
                 />
             );
         }
