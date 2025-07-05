@@ -1,4 +1,4 @@
-# 🧠 Journal de Bord
+# 🧠 Daily Notes
 
 A personal journaling web app designed to help users log thoughts, memories, and plans throughout their life — by date, intention, or reflection.
 
