@@ -17,10 +17,9 @@ A personal journaling web app designed to help users log thoughts, memories, and
 
 ## 📁 Project Structure
 
-/frontend → Application React (SPA)
-/src
-/components
-/pages
-/utils
-/backend → API Express (Node.js + MongoDB)
-/README.md
+- frontend → Application React (SPA)
+- src
+- components
+- pages
+- utils
+- backend → API Express (Node.js + MongoDB)
